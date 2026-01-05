@@ -1,32 +1,42 @@
-# 📈 Crypto Asset Analytics Pipeline
+ # 🚀 DonCrypto: Asset Analytics Pipeline
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat&logo=python)
-![Finance](https://img.shields.io/badge/Domain-Financial%20Engineering-green?style=flat&logo=cashapp)
-![Pipeline](https://img.shields.io/badge/Architecture-ETL%20Pipeline-orange?style=flat)
-![Status](https://img.shields.io/badge/Status-Active%20Development-yellow)
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)
+![Finance](https://img.shields.io/badge/Domain-Financial%20Engineering-green?style=for-the-badge&logo=cashapp)
+![Status](https://img.shields.io/badge/Status-Under%20Construction-orange?style=for-the-badge)
 
-**Automated ETL pipeline designed to bridge the gap between Financial Engineering and MLOps.**
-This system ingests real-time cryptocurrency market data, calculates advanced technical indicators and risk metrics (Volatility, Log Returns), and monitors market anomalies for algorithmic trading purposes.
+**DonCrypto** es una infraestructura de MLOps diseñada para cerrar la brecha entre el caos del mercado cripto y la precisión del análisis cuantitativo. A diferencia de herramientas de visualización estándar, este pipeline construye un **Feature Store** de grado institucional para la gestión de riesgo y el trading algorítmico.
 
 ---
 
-## 🚀 Key Features
-
-* **Automated Data Ingestion:** Fetches real-time OHLCV (Open, High, Low, Close, Volume) data from reliable financial APIs (Yahoo Finance/Binance).
-* **Financial Engineering Core:** Custom implementation of technical indicators:
-    * **SMA/EMA:** Trend identification.
-    * **Log Returns:** For accurate statistical analysis and volatility modeling.
-    * **Volatility (Rolling Std Dev):** Dynamic risk assessment.
-* **Scalable Architecture:** Modular design separating extraction, transformation, and logic, ready for cloud deployment (AWS/Render).
-
----
-
-## 🏗️ Architecture
+## 🏗️ Arquitectura del Sistema (Premium Dark Theme)
 
 ```mermaid
-graph LR
-    A[Yahoo Finance API] -->|Raw Data| B(Data Ingestion Module)
-    B -->|Cleaned DataFrame| C{Financial Processor}
-    C -->|Calculates| D[SMA & Trend Indicators]
-    C -->|Calculates| E[Volatility & Risk Metrics]
-    D & E -->|Processed Data| F[Alert System / Database]
+graph TD
+    %% Estilos de la Paleta Dark
+    classDef ingestion fill:#161b22,stroke:#238636,stroke-width:2px,color:#fff;
+    classDef engine fill:#161b22,stroke:#1f6feb,stroke-width:2px,color:#fff,stroke-dasharray: 5 5;
+    classDef output fill:#161b22,stroke:#8957e5,stroke-width:2px,color:#fff;
+    classDef box fill:#0d1117,stroke:#30363d,color:#8b949e,font-weight:bold;
+
+    subgraph INGESTION ["📥 CAPA DE INGESTIÓN"]
+        A1[Yahoo Finance API]:::ingestion --> B[Data Ingestion Module]:::ingestion
+        A2[Binance WebSocket]:::ingestion -.-> B
+    end
+
+    subgraph QUANT ["⚙️ NÚCLEO CUANTITATIVO"]
+        B --> C{Financial Engine}:::engine
+        C --> D[Log Returns & Volatility]:::engine
+        C --> E[SMA / EMA / RSI]:::engine
+        C --> F[Feature Store / Clean Data]:::engine
+    end
+
+    subgraph LOADING ["📤 CAPA DE SALIDA"]
+        F --> G[Real-time Dashboard JS]:::output
+        F --> H[Anomaly Alert System]:::output
+        F --> I[ML Training Ready]:::output
+    end
+
+    class INGESTION,QUANT,LOADING box;
+
+
+
