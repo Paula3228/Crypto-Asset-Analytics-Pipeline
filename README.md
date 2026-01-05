@@ -21,12 +21,32 @@ This system ingests real-time cryptocurrency market data, calculates advanced te
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Arquitectura del Sistema (Premium Dark Theme)
 
 ```mermaid
-graph LR
-    A[Yahoo Finance API] -->|Raw Data| B(Data Ingestion Module)
-    B -->|Cleaned DataFrame| C{Financial Processor}
-    C -->|Calculates| D[SMA & Trend Indicators]
-    C -->|Calculates| E[Volatility & Risk Metrics]
-    D & E -->|Processed Data| F[Alert System / Database]
+graph TD
+    %% Estilos de la Paleta Dark
+    classDef ingestion fill:#161b22,stroke:#238636,stroke-width:2px,color:#fff;
+    classDef engine fill:#161b22,stroke:#1f6feb,stroke-width:2px,color:#fff,stroke-dasharray: 5 5;
+    classDef output fill:#161b22,stroke:#8957e5,stroke-width:2px,color:#fff;
+    classDef box fill:#0d1117,stroke:#30363d,color:#8b949e,font-weight:bold;
+
+    subgraph INGESTION ["📥 CAPA DE INGESTIÓN"]
+        A1[Yahoo Finance API]:::ingestion --> B[Data Ingestion Module]:::ingestion
+        A2[Binance WebSocket]:::ingestion -.-> B
+    end
+
+    subgraph QUANT ["⚙️ NÚCLEO CUANTITATIVO"]
+        B --> C{Financial Engine}:::engine
+        C --> D[Log Returns & Volatility]:::engine
+        C --> E[SMA / EMA / RSI]:::engine
+        C --> F[Feature Store / Clean Data]:::engine
+    end
+
+    subgraph LOADING ["📤 CAPA DE SALIDA"]
+        F --> G[Real-time Dashboard JS]:::output
+        F --> H[Anomaly Alert System]:::output
+        F --> I[ML Training Ready]:::output
+    end
+
+    class INGESTION,QUANT,LOADING box;
